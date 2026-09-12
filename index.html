@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A practical four-week beginner calisthenics plan with session tracking and exercise guidance.">
+  <title>Your First 4 Weeks of Calisthenics</title>
+  <style>
+    :root {
+      --paper: #f5f1e8;
+      --surface: #fffdf8;
+      --ink: #1c2822;
+      --muted: #607066;
+      --line: #d9d5ca;
+      --forest: #184d3a;
+      --forest-2: #0f3528;
+      --amber: #d8852f;
+      --amber-soft: #f7e3c8;
+      --success: #2d6a4f;
+      --danger: #9f372d;
+      --radius: 14px;
+      --shadow: 0 16px 40px rgba(28, 40, 34, .09);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 92px; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.65;
+    }
+    button, select { font: inherit; }
+    button { min-height: 44px; }
+    a { color: var(--forest); text-underline-offset: 3px; }
+    a:hover { color: var(--amber); }
+    :focus-visible { outline: 3px solid var(--amber); outline-offset: 3px; }
+    .reading-progress { position: fixed; inset: 0 0 auto; height: 4px; z-index: 30; background: transparent; }
+    .reading-progress span { display: block; height: 100%; width: 0; background: var(--amber); }
+    .topbar {
+      position: sticky; top: 0; z-index: 20; height: 72px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 20px; padding: 0 5vw; border-bottom: 1px solid var(--line);
+      background: rgba(245, 241, 232, .96); backdrop-filter: blur(10px);
+    }
+    .brand { display: flex; align-items: center; gap: 11px; font-weight: 800; letter-spacing: -.02em; }
+    .brand-mark { width: 34px; height: 34px; display: grid; place-items: center; border-radius: 50%; color: #fff; background: var(--forest); font-family: Georgia, serif; }
+    .top-actions { display: flex; gap: 8px; }
+    .quiet-button { border: 1px solid var(--line); border-radius: 999px; padding: 8px 14px; color: var(--ink); background: var(--surface); cursor: pointer; }
+    .quiet-button:hover { border-color: var(--forest); }
+    .hero { max-width: 1180px; margin: 0 auto; padding: 72px 28px 48px; display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(280px, .6fr); gap: 54px; align-items: end; }
+    .eyebrow { color: var(--amber); font-size: .78rem; font-weight: 850; letter-spacing: .14em; text-transform: uppercase; }
+    h1, h2, h3 { font-family: Georgia, "Times New Roman", serif; text-wrap: balance; }
+    h1 { max-width: 760px; margin: 12px 0 20px; font-size: clamp(3rem, 7vw, 6.8rem); line-height: .94; letter-spacing: -.055em; font-weight: 500; }
+    .hero-copy { max-width: 650px; margin: 0; color: var(--muted); font-size: clamp(1.05rem, 2vw, 1.28rem); }
+    .hero-note { border-top: 4px solid var(--forest); padding-top: 18px; }
+    .hero-note strong { display: block; font-family: Georgia, serif; font-size: 1.45rem; }
+    .hero-note p { color: var(--muted); margin: 8px 0 0; }
+    .shell { max-width: 1180px; margin: 0 auto; padding: 0 28px 80px; display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 48px; }
+    .side { position: sticky; top: 96px; align-self: start; max-height: calc(100vh - 120px); overflow: auto; padding-right: 12px; }
+    .side-label { margin: 0 0 10px; color: var(--muted); font-size: .72rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+    .toc { display: grid; gap: 2px; }
+    .toc a { padding: 7px 10px; border-radius: 8px; color: var(--muted); font-size: .88rem; line-height: 1.25; text-decoration: none; }
+    .toc a:hover, .toc a.active { color: var(--forest); background: #e7e6da; }
+    .main { min-width: 0; }
+    .dashboard { margin-bottom: 52px; padding: 28px; color: #fff; border-radius: var(--radius); background: var(--forest); box-shadow: var(--shadow); }
+    .dashboard-head { display: flex; justify-content: space-between; gap: 24px; align-items: start; }
+    .dashboard h2 { margin: 0; font-size: clamp(1.8rem, 4vw, 3rem); line-height: 1; }
+    .dashboard p { margin: 8px 0 0; color: #d8e7df; }
+    .progress-number { font-family: Georgia, serif; font-size: 2.6rem; line-height: 1; white-space: nowrap; }
+    .session-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 24px; }
+    .week-card { padding: 14px; border: 1px solid rgba(255,255,255,.18); border-radius: 10px; background: rgba(255,255,255,.06); }
+    .week-card strong { display: block; margin-bottom: 8px; font-size: .82rem; text-transform: uppercase; letter-spacing: .06em; }
+    .checks { display: flex; gap: 8px; }
+    .check { position: relative; flex: 1; }
+    .check input { position: absolute; opacity: 0; }
+    .check label { display: grid; min-height: 44px; place-items: center; border: 1px solid rgba(255,255,255,.3); border-radius: 8px; cursor: pointer; font-weight: 800; }
+    .check input:checked + label { color: var(--forest-2); border-color: #fff; background: #fff; }
+    .check input:focus-visible + label { outline: 3px solid var(--amber); outline-offset: 2px; }
+    .reset { margin-top: 14px; padding: 4px 0; min-height: 30px; border: 0; color: #d8e7df; background: none; text-decoration: underline; cursor: pointer; }
+    .today { margin-bottom: 54px; padding: 28px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+    .today-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; }
+    .today h2 { margin: 0; font-size: 2.2rem; }
+    .week-select { min-height: 44px; padding: 8px 34px 8px 12px; border: 1px solid var(--line); border-radius: 9px; color: var(--ink); background: var(--surface); }
+    .quick-moves { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 0; }
+    .quick-moves button { padding: 8px 13px; border: 1px solid var(--line); border-radius: 999px; color: var(--forest); background: transparent; cursor: pointer; }
+    .quick-moves button:hover { color: white; border-color: var(--forest); background: var(--forest); }
+    #weekPlan { margin-top: 20px; overflow-x: auto; }
+    .guide { padding: 0 6px; }
+    .guide > h2 { margin: 70px 0 20px; padding-top: 12px; border-top: 1px solid var(--line); font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.05; font-weight: 500; }
+    .guide > h2:first-child { margin-top: 0; }
+    .guide h3 { margin: 42px 0 14px; font-size: 1.75rem; line-height: 1.15; }
+    .guide p, .guide ul, .guide ol { max-width: 760px; }
+    .guide li { margin: 5px 0; }
+    .guide table, #weekPlan table { width: 100%; border-collapse: collapse; min-width: 650px; font-size: .91rem; }
+    .guide th, .guide td, #weekPlan th, #weekPlan td { padding: 12px 10px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+    .guide th, #weekPlan th { color: var(--forest); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; }
+    .guide blockquote { max-width: 740px; margin: 8px 0 16px; padding: 10px 16px; color: var(--muted); border-left: 3px solid var(--amber); }
+    .guide code { padding: 2px 5px; border-radius: 4px; background: #e7e4da; }
+    .safety-box { margin: 28px 0; padding: 20px 22px; border: 1px solid #dfb0a9; border-radius: 12px; color: #67251f; background: #fff5f2; }
+    .mobile-menu { display: none; }
+    footer { max-width: 1180px; margin: 0 auto; padding: 28px; color: var(--muted); border-top: 1px solid var(--line); font-size: .88rem; }
+    .dark {
+      --paper: #15201b; --surface: #1d2a24; --ink: #f0eee7; --muted: #b1c0b7; --line: #36463d;
+      --forest: #2f7659; --forest-2: #10271e; --amber: #e2a35f; --amber-soft: #4e3723; --shadow: 0 16px 40px rgba(0,0,0,.2);
+    }
+    .dark .topbar { background: rgba(21,32,27,.96); }
+    .dark .toc a:hover, .dark .toc a.active { background: #27362f; }
+    .dark .safety-box { color: #ffd8d1; border-color: #724a43; background: #382622; }
+    .dark .guide code { background: #29372f; }
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; gap: 28px; padding-top: 48px; }
+      .shell { display: block; }
+      .side { display: none; position: fixed; inset: 72px 0 auto; z-index: 15; max-height: calc(100vh - 72px); padding: 22px 28px; background: var(--paper); border-bottom: 1px solid var(--line); }
+      .side.open { display: block; }
+      .mobile-menu { display: inline-block; }
+      .session-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 560px) {
+      .topbar { padding: 0 18px; }
+      .brand span:last-child { display: none; }
+      .hero, .shell { padding-left: 18px; padding-right: 18px; }
+      h1 { font-size: 3.25rem; }
+      .dashboard, .today { padding: 20px; }
+      .dashboard-head { display: block; }
+      .progress-number { margin-top: 14px; }
+      .session-grid { grid-template-columns: 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+    @media print { .topbar, .side, .dashboard, .today, .reading-progress { display: none !important; } .shell { display: block; } body { background: white; color: black; } .guide { font-size: 12pt; } }
+  </style>
+</head>
+<body>
+  <div class="reading-progress" aria-hidden="true"><span id="readingBar"></span></div>
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark">4</span><span>Weeks of Calisthenics</span></div>
+    <div class="top-actions">
+      <button class="quiet-button mobile-menu" id="menuButton" aria-expanded="false" aria-controls="sideNav">Contents</button>
+      <button class="quiet-button" id="themeButton" aria-label="Toggle color theme">Dark mode</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div>
+      <div class="eyebrow">Begin where you are</div>
+      <h1>Your first four weeks.</h1>
+      <p class="hero-copy">A clear, three-days-per-week introduction to bodyweight strength—built around control, safe progression, and showing up.</p>
+    </div>
+    <aside class="hero-note">
+      <strong>25–40 minutes</strong>
+      <p>Three nonconsecutive days each week. No gym required; safe pulling equipment is the only optional extra.</p>
+    </aside>
+  </section>
+
+  <div class="shell">
+    <aside class="side" id="sideNav">
+      <p class="side-label">Guide contents</p>
+      <nav class="toc" id="toc" aria-label="Guide contents"></nav>
+    </aside>
+
+    <main class="main">
+      <section class="dashboard" aria-labelledby="progressTitle">
+        <div class="dashboard-head">
+          <div><h2 id="progressTitle">Twelve sessions. One steady start.</h2><p>Your progress stays on this device.</p></div>
+          <div class="progress-number" id="progressNumber">0 / 12</div>
+        </div>
+        <div class="session-grid" id="sessionGrid"></div>
+        <button class="reset" id="resetProgress">Reset progress</button>
+      </section>
+
+      <section class="today" aria-labelledby="todayTitle">
+        <div class="today-head">
+          <div><div class="eyebrow">Workout view</div><h2 id="todayTitle">This week’s plan</h2></div>
+          <label>Week <select class="week-select" id="weekSelect" aria-label="Choose training week"><option value="1">1 — Learn</option><option value="2">2 — Practice</option><option value="3">3 — Add a set</option><option value="4">4 — Build control</option></select></label>
+        </div>
+        <div class="quick-moves" aria-label="Jump to movement instructions">
+          <button data-move="1-squat">Squat</button><button data-move="2-incline-push-up-or-knee-push-up">Push</button><button data-move="3-row">Row</button><button data-move="4-glute-bridge">Bridge</button><button data-move="5-plank">Plank</button><button data-move="6-assisted-pull-up-progression">Pull-up prep</button>
+        </div>
+        <div id="weekPlan"><p>Loading the week plan…</p></div>
+      </section>
+
+      <article class="guide" id="guide" aria-label="Complete calisthenics guide"><p>Loading the complete guide…</p></article>
+    </main>
+  </div>
+
+  <footer>General fitness guidance, not diagnosis or treatment. Stop if you feel pain or become unwell, and seek qualified advice when needed.</footer>
+
+  <script>
+    const $ = (selector, root = document) => root.querySelector(selector);
+    const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
+    const escapeHtml = value => value.replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+    const slugify = value => value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+    function inline(text) {
+      let safe = escapeHtml(text);
+      safe = safe.replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g, '<a href="$2">$1</a>');
+      safe = safe.replace(/(?<!["'=])(https?:\/\/[^\s<]+)/g, url => `<a href="${url.replace(/[.,]$/, '')}">${url.replace(/[.,]$/, '')}</a>${/[.,]$/.test(url) ? url.slice(-1) : ''}`);
+      safe = safe.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>').replace(/\*([^*]+)\*/g, '<em>$1</em>');
+      return safe;
+    }
+
+    function renderMarkdown(markdown) {
+      const lines = markdown.replace(/\r/g, '').split('\n');
+      let html = '', i = 0;
+      while (i < lines.length) {
+        const raw = lines[i], line = raw.trim();
+        if (!line) { i++; continue; }
+        const heading = line.match(/^(#{1,3})\s+(.+)$/);
+        if (heading) {
+          const level = heading[1].length, text = heading[2], id = slugify(text);
+          html += `<h${level} id="${id}">${inline(text)}</h${level}>`; i++; continue;
+        }
+        if (line.startsWith('|') && i + 1 < lines.length && /^\|?\s*:?-+/.test(lines[i + 1].trim())) {
+          const rows = [];
+          while (i < lines.length && lines[i].trim().startsWith('|')) {
+            rows.push(lines[i].trim().replace(/^\||\|$/g, '').split('|').map(c => c.trim())); i++;
+          }
+          const head = rows[0], body = rows.slice(2);
+          html += '<div style="overflow-x:auto"><table><thead><tr>' + head.map(c => `<th>${inline(c)}</th>`).join('') + '</tr></thead><tbody>' + body.map(r => '<tr>' + r.map(c => `<td>${inline(c)}</td>`).join('') + '</tr>').join('') + '</tbody></table></div>'; continue;
+        }
+        if (/^[-*]\s+/.test(line)) {
+          const items = [];
+          while (i < lines.length && /^\s*[-*]\s+/.test(lines[i])) { items.push(lines[i].trim().replace(/^[-*]\s+/, '')); i++; }
+          html += '<ul>' + items.map(x => `<li>${inline(x)}</li>`).join('') + '</ul>'; continue;
+        }
+        if (/^\d+\.\s+/.test(line)) {
+          const items = [];
+          while (i < lines.length && /^\s*\d+\.\s+/.test(lines[i])) { items.push(lines[i].trim().replace(/^\d+\.\s+/, '')); i++; }
+          html += '<ol>' + items.map(x => `<li>${inline(x)}</li>`).join('') + '</ol>'; continue;
+        }
+        if (line.startsWith('>')) { html += `<blockquote>${inline(line.replace(/^>\s?/, ''))}</blockquote>`; i++; continue; }
+        const parts = [line]; i++;
+        while (i < lines.length && lines[i].trim() && !/^(#{1,3})\s|^[-*]\s+|^\d+\.\s+|^\||^>/.test(lines[i].trim())) { parts.push(lines[i].trim()); i++; }
+        html += `<p>${inline(parts.join(' '))}</p>`;
+      }
+      return html;
+    }
+
+    function buildProgress() {
+      const grid = $('#sessionGrid');
+      for (let week = 1; week <= 4; week++) {
+        const card = document.createElement('div'); card.className = 'week-card';
+        card.innerHTML = `<strong>Week ${week}</strong><div class="checks">${[1,2,3].map(session => `<span class="check"><input type="checkbox" id="w${week}s${session}" data-session="w${week}s${session}"><label for="w${week}s${session}" title="Week ${week}, session ${session}">${session}</label></span>`).join('')}</div>`;
+        grid.append(card);
+      }
+      const saved = JSON.parse(localStorage.getItem('calisthenics-progress') || '{}');
+      $$('[data-session]').forEach(box => { box.checked = !!saved[box.dataset.session]; box.addEventListener('change', saveProgress); });
+      updateProgress();
+    }
+    function saveProgress() {
+      const state = {}; $$('[data-session]').forEach(box => state[box.dataset.session] = box.checked);
+      localStorage.setItem('calisthenics-progress', JSON.stringify(state)); updateProgress();
+    }
+    function updateProgress() { const count = $$('[data-session]:checked').length; $('#progressNumber').textContent = `${count} / 12`; }
+
+    function buildToc() {
+      const headings = $$('#guide h2');
+      $('#toc').innerHTML = headings.map(h => `<a href="#${h.id}">${h.textContent}</a>`).join('');
+      const observer = new IntersectionObserver(entries => entries.forEach(entry => { if (entry.isIntersecting) { $$('.toc a').forEach(a => a.classList.toggle('active', a.getAttribute('href') === `#${entry.target.id}`)); } }), { rootMargin: '-20% 0px -72% 0px' });
+      headings.forEach(h => observer.observe(h));
+      $$('.toc a').forEach(a => a.addEventListener('click', () => { $('#sideNav').classList.remove('open'); $('#menuButton').setAttribute('aria-expanded', 'false'); }));
+    }
+
+    function showWeek(week) {
+      const heading = $$('#guide h3').find(h => h.textContent.startsWith(`Week ${week} `));
+      if (!heading) return;
+      let node = heading.nextElementSibling, table = null, goal = '';
+      while (node && node.tagName !== 'H3') { if (node.querySelector?.('table')) table = node.cloneNode(true); if (node.tagName === 'P' && node.textContent.startsWith('Goal:')) goal = node.textContent; node = node.nextElementSibling; }
+      const target = $('#weekPlan'); target.innerHTML = '';
+      if (table) target.append(table); if (goal) { const p = document.createElement('p'); p.innerHTML = `<strong>${escapeHtml(goal)}</strong>`; target.append(p); }
+      localStorage.setItem('calisthenics-week', week);
+    }
+
+    async function loadGuide() {
+      try {
+        const response = await fetch('beginner-calisthenics-guide.md');
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const markdown = await response.text();
+        $('#guide').innerHTML = renderMarkdown(markdown.replace(/^# .+\n+[^\n]+\n+/, ''));
+        const before = $('#before-you-begin');
+        if (before) {
+          const box = document.createElement('div'); box.className = 'safety-box'; box.innerHTML = '<strong>Safety first.</strong> This is general guidance. Stop immediately if you feel pain or become unwell, and seek appropriate medical advice for concerning symptoms.';
+          before.insertAdjacentElement('afterend', box);
+        }
+        buildToc(); showWeek($('#weekSelect').value);
+      } catch (error) {
+        $('#guide').innerHTML = `<div class="safety-box"><strong>The guide could not load.</strong><br>${escapeHtml(error.message)}</div>`;
+        $('#weekPlan').innerHTML = '<p>Week plan unavailable.</p>';
+      }
+    }
+
+    const savedTheme = localStorage.getItem('calisthenics-theme');
+    if (savedTheme === 'dark') document.body.classList.add('dark');
+    $('#themeButton').textContent = document.body.classList.contains('dark') ? 'Light mode' : 'Dark mode';
+    $('#themeButton').addEventListener('click', () => { document.body.classList.toggle('dark'); const dark = document.body.classList.contains('dark'); localStorage.setItem('calisthenics-theme', dark ? 'dark' : 'light'); $('#themeButton').textContent = dark ? 'Light mode' : 'Dark mode'; });
+    $('#menuButton').addEventListener('click', () => { const open = $('#sideNav').classList.toggle('open'); $('#menuButton').setAttribute('aria-expanded', String(open)); });
+    $('#weekSelect').value = localStorage.getItem('calisthenics-week') || '1';
+    $('#weekSelect').addEventListener('change', e => showWeek(e.target.value));
+    $('#resetProgress').addEventListener('click', () => { if (confirm('Reset all twelve session checkmarks?')) { localStorage.removeItem('calisthenics-progress'); $$('[data-session]').forEach(box => box.checked = false); updateProgress(); } });
+    $$('.quick-moves button').forEach(button => button.addEventListener('click', () => document.getElementById(button.dataset.move)?.scrollIntoView()));
+    addEventListener('scroll', () => { const max = document.documentElement.scrollHeight - innerHeight; $('#readingBar').style.width = `${max > 0 ? scrollY / max * 100 : 0}%`; }, { passive: true });
+
+    buildProgress(); loadGuide();
+  </script>
+</body>
+</html>
