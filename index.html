@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="en">
+<html lang="he" dir="rtl">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="A practical four-week beginner calisthenics plan with session tracking and exercise guidance.">
-  <title>Your First 4 Weeks of Calisthenics</title>
+  <meta name="description" content="תוכנית קליסטניקס מעשית למתחילים לארבעה שבועות, עם מעקב אימונים והדרכה לתרגילים.">
+  <title>ארבעת השבועות הראשונים שלכם בקליסטניקס</title>
   <style>
     :root {
       --paper: #f5f1e8;
@@ -57,7 +57,7 @@
     .hero-note strong { display: block; font-family: Georgia, serif; font-size: 1.45rem; }
     .hero-note p { color: var(--muted); margin: 8px 0 0; }
     .shell { max-width: 1180px; margin: 0 auto; padding: 0 28px 80px; display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 48px; }
-    .side { position: sticky; top: 96px; align-self: start; max-height: calc(100vh - 120px); overflow: auto; padding-right: 12px; }
+    .side { position: sticky; top: 96px; align-self: start; max-height: calc(100vh - 120px); overflow: auto; padding-inline-end: 12px; }
     .side-label { margin: 0 0 10px; color: var(--muted); font-size: .72rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
     .toc { display: grid; gap: 2px; }
     .toc a { padding: 7px 10px; border-radius: 8px; color: var(--muted); font-size: .88rem; line-height: 1.25; text-decoration: none; }
@@ -81,7 +81,7 @@
     .today { margin-bottom: 54px; padding: 28px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
     .today-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; }
     .today h2 { margin: 0; font-size: 2.2rem; }
-    .week-select { min-height: 44px; padding: 8px 34px 8px 12px; border: 1px solid var(--line); border-radius: 9px; color: var(--ink); background: var(--surface); }
+    .week-select { min-height: 44px; padding-block: 8px; padding-inline-start: 12px; padding-inline-end: 34px; border: 1px solid var(--line); border-radius: 9px; color: var(--ink); background: var(--surface); }
     .quick-moves { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 0; }
     .quick-moves button { padding: 8px 13px; border: 1px solid var(--line); border-radius: 999px; color: var(--forest); background: transparent; cursor: pointer; }
     .quick-moves button:hover { color: white; border-color: var(--forest); background: var(--forest); }
@@ -93,9 +93,9 @@
     .guide p, .guide ul, .guide ol { max-width: 760px; }
     .guide li { margin: 5px 0; }
     .guide table, #weekPlan table { width: 100%; border-collapse: collapse; min-width: 650px; font-size: .91rem; }
-    .guide th, .guide td, #weekPlan th, #weekPlan td { padding: 12px 10px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+    .guide th, .guide td, #weekPlan th, #weekPlan td { padding: 12px 10px; border-bottom: 1px solid var(--line); text-align: start; vertical-align: top; }
     .guide th, #weekPlan th { color: var(--forest); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; }
-    .guide blockquote { max-width: 740px; margin: 8px 0 16px; padding: 10px 16px; color: var(--muted); border-left: 3px solid var(--amber); }
+    .guide blockquote { max-width: 740px; margin: 8px 0 16px; padding: 10px 16px; color: var(--muted); border-inline-start: 3px solid var(--amber); }
     .guide code { padding: 2px 5px; border-radius: 4px; background: #e7e4da; }
     .safety-box { margin: 28px 0; padding: 20px 22px; border: 1px solid #dfb0a9; border-radius: 12px; color: #67251f; background: #fff5f2; }
     .mobile-menu { display: none; }
@@ -108,6 +108,8 @@
     .dark .toc a:hover, .dark .toc a.active { background: #27362f; }
     .dark .safety-box { color: #ffd8d1; border-color: #724a43; background: #382622; }
     .dark .guide code { background: #29372f; }
+    [dir="rtl"] h1 { letter-spacing: -.025em; }
+    [dir="rtl"] .eyebrow, [dir="rtl"] .week-card strong, [dir="rtl"] .guide th, [dir="rtl"] #weekPlan th { letter-spacing: 0; }
     @media (max-width: 900px) {
       .hero { grid-template-columns: 1fr; gap: 28px; padding-top: 48px; }
       .shell { display: block; }
@@ -133,63 +135,88 @@
 <body>
   <div class="reading-progress" aria-hidden="true"><span id="readingBar"></span></div>
   <header class="topbar">
-    <div class="brand"><span class="brand-mark">4</span><span>Weeks of Calisthenics</span></div>
+    <div class="brand"><span class="brand-mark">4</span><span id="brandText">שבועות של קליסטניקס</span></div>
     <div class="top-actions">
-      <button class="quiet-button mobile-menu" id="menuButton" aria-expanded="false" aria-controls="sideNav">Contents</button>
-      <button class="quiet-button" id="themeButton" aria-label="Toggle color theme">Dark mode</button>
+      <button class="quiet-button mobile-menu" id="menuButton" aria-expanded="false" aria-controls="sideNav">תוכן</button>
+      <button class="quiet-button" id="languageButton" lang="en" aria-label="Switch to English">English</button>
+      <button class="quiet-button" id="themeButton" aria-label="החלפת ערכת צבעים">מצב כהה</button>
     </div>
   </header>
 
   <section class="hero">
     <div>
-      <div class="eyebrow">Begin where you are</div>
-      <h1>Your first four weeks.</h1>
-      <p class="hero-copy">A clear, three-days-per-week introduction to bodyweight strength—built around control, safe progression, and showing up.</p>
+      <div class="eyebrow" id="heroEyebrow">מתחילים מהמקום שבו אתם נמצאים</div>
+      <h1 id="heroTitle">ארבעת השבועות הראשונים שלכם.</h1>
+      <p class="hero-copy" id="heroCopy">מבוא ברור לאימוני כוח במשקל גוף, שלושה ימים בשבוע—עם דגש על שליטה, התקדמות בטוחה והתמדה.</p>
     </div>
     <aside class="hero-note">
-      <strong>25–40 minutes</strong>
-      <p>Three nonconsecutive days each week. No gym required; safe pulling equipment is the only optional extra.</p>
+      <strong id="durationTitle">25–40 דקות</strong>
+      <p id="durationCopy">שלושה ימים לא רצופים בכל שבוע. אין צורך בחדר כושר; ציוד משיכה בטוח הוא התוספת האופציונלית היחידה.</p>
     </aside>
   </section>
 
   <div class="shell">
     <aside class="side" id="sideNav">
-      <p class="side-label">Guide contents</p>
-      <nav class="toc" id="toc" aria-label="Guide contents"></nav>
+      <p class="side-label" id="tocTitle">תוכן המדריך</p>
+      <nav class="toc" id="toc" aria-label="תוכן המדריך"></nav>
     </aside>
 
     <main class="main">
       <section class="dashboard" aria-labelledby="progressTitle">
         <div class="dashboard-head">
-          <div><h2 id="progressTitle">Twelve sessions. One steady start.</h2><p>Your progress stays on this device.</p></div>
-          <div class="progress-number" id="progressNumber">0 / 12</div>
+          <div><h2 id="progressTitle">שנים עשר אימונים. התחלה יציבה אחת.</h2><p id="progressCopy">ההתקדמות נשמרת במכשיר הזה.</p></div>
+          <div class="progress-number" id="progressNumber"><bdi dir="ltr">0 / 12</bdi></div>
         </div>
         <div class="session-grid" id="sessionGrid"></div>
-        <button class="reset" id="resetProgress">Reset progress</button>
+        <button class="reset" id="resetProgress">איפוס ההתקדמות</button>
       </section>
 
       <section class="today" aria-labelledby="todayTitle">
         <div class="today-head">
-          <div><div class="eyebrow">Workout view</div><h2 id="todayTitle">This week’s plan</h2></div>
-          <label>Week <select class="week-select" id="weekSelect" aria-label="Choose training week"><option value="1">1 — Learn</option><option value="2">2 — Practice</option><option value="3">3 — Add a set</option><option value="4">4 — Build control</option></select></label>
+          <div><div class="eyebrow" id="workoutEyebrow">תצוגת אימון</div><h2 id="todayTitle">התוכנית לשבוע הזה</h2></div>
+          <label><span id="weekLabel">שבוע</span> <select class="week-select" id="weekSelect" aria-label="בחירת שבוע אימונים"><option value="1">1 — לימוד</option><option value="2">2 — תרגול</option><option value="3">3 — הוספת סט</option><option value="4">4 — פיתוח שליטה</option></select></label>
         </div>
-        <div class="quick-moves" aria-label="Jump to movement instructions">
-          <button data-move="1-squat">Squat</button><button data-move="2-incline-push-up-or-knee-push-up">Push</button><button data-move="3-row">Row</button><button data-move="4-glute-bridge">Bridge</button><button data-move="5-plank">Plank</button><button data-move="6-assisted-pull-up-progression">Pull-up prep</button>
+        <div class="quick-moves" aria-label="מעבר להוראות התרגיל">
+          <button data-move="movement-1">סקוואט</button><button data-move="movement-2">דחיפה</button><button data-move="movement-3">חתירה</button><button data-move="movement-4">גשר</button><button data-move="movement-5">פלאנק</button><button data-move="movement-6">הכנה למתח</button>
         </div>
-        <div id="weekPlan"><p>Loading the week plan…</p></div>
+        <div id="weekPlan"><p>התוכנית השבועית נטענת…</p></div>
       </section>
 
-      <article class="guide" id="guide" aria-label="Complete calisthenics guide"><p>Loading the complete guide…</p></article>
+      <article class="guide" id="guide" aria-label="מדריך הקליסטניקס המלא"><p>המדריך המלא נטען…</p></article>
     </main>
   </div>
 
-  <footer>General fitness guidance, not diagnosis or treatment. Stop if you feel pain or become unwell, and seek qualified advice when needed.</footer>
+  <footer id="footerText">מידע כללי על כושר, לא אבחון או טיפול. הפסיקו אם אתם חשים כאב או ברע ופנו לייעוץ מקצועי לפי הצורך.</footer>
 
   <script>
     const $ = (selector, root = document) => root.querySelector(selector);
     const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
     const escapeHtml = value => value.replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
-    const slugify = value => value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    const locales = {
+      he: {
+        title: 'ארבעת השבועות הראשונים שלכם בקליסטניקס', description: 'תוכנית קליסטניקס מעשית למתחילים לארבעה שבועות, עם מעקב אימונים והדרכה לתרגילים.',
+        brand: 'שבועות של קליסטניקס', menu: 'תוכן', themeDark: 'מצב כהה', themeLight: 'מצב בהיר', themeAria: 'החלפת ערכת צבעים', language: 'English', languageAria: 'Switch to English', languageLang: 'en',
+        heroEyebrow: 'מתחילים מהמקום שבו אתם נמצאים', heroTitle: 'ארבעת השבועות הראשונים שלכם.', heroCopy: 'מבוא ברור לאימוני כוח במשקל גוף, שלושה ימים בשבוע—עם דגש על שליטה, התקדמות בטוחה והתמדה.',
+        durationTitle: '25–40 דקות', durationCopy: 'שלושה ימים לא רצופים בכל שבוע. אין צורך בחדר כושר; ציוד משיכה בטוח הוא התוספת האופציונלית היחידה.',
+        tocTitle: 'תוכן המדריך', progressTitle: 'שנים עשר אימונים. התחלה יציבה אחת.', progressCopy: 'ההתקדמות נשמרת במכשיר הזה.', reset: 'איפוס ההתקדמות', workoutEyebrow: 'תצוגת אימון', todayTitle: 'התוכנית לשבוע הזה', weekLabel: 'שבוע',
+        weekOptions: ['1 — לימוד', '2 — תרגול', '3 — הוספת סט', '4 — פיתוח שליטה'], moves: ['סקוואט','דחיפה','חתירה','גשר','פלאנק','הכנה למתח'], quickAria: 'מעבר להוראות התרגיל', guideAria: 'מדריך הקליסטניקס המלא',
+        loadingPlan: 'התוכנית השבועית נטענת…', loadingGuide: 'המדריך המלא נטען…', footer: 'מידע כללי על כושר, לא אבחון או טיפול. הפסיקו אם אתם חשים כאב או ברע ופנו לייעוץ מקצועי לפי הצורך.',
+        week: 'שבוע', session: 'אימון', resetConfirm: 'לאפס את הסימון של כל שנים עשר האימונים?', safetyHeading: 'לפני שמתחילים', safety: '<strong>בטיחות תחילה.</strong> זהו מידע כללי. הפסיקו מיד אם אתם חשים כאב או ברע, ופנו לייעוץ רפואי מתאים במקרה של תסמינים מדאיגים.', loadError: '<strong>לא ניתן לטעון את המדריך.</strong>', planError: 'התוכנית השבועית אינה זמינה.', file: 'beginner-calisthenics-guide-he.md'
+      },
+      en: {
+        title: 'Your First 4 Weeks of Calisthenics', description: 'A practical four-week beginner calisthenics plan with session tracking and exercise guidance.',
+        brand: 'Weeks of Calisthenics', menu: 'Contents', themeDark: 'Dark mode', themeLight: 'Light mode', themeAria: 'Toggle color theme', language: 'עברית', languageAria: 'מעבר לעברית', languageLang: 'he',
+        heroEyebrow: 'Begin where you are', heroTitle: 'Your first four weeks.', heroCopy: 'A clear, three-days-per-week introduction to bodyweight strength—built around control, safe progression, and showing up.',
+        durationTitle: '25–40 minutes', durationCopy: 'Three nonconsecutive days each week. No gym required; safe pulling equipment is the only optional extra.',
+        tocTitle: 'Guide contents', progressTitle: 'Twelve sessions. One steady start.', progressCopy: 'Your progress stays on this device.', reset: 'Reset progress', workoutEyebrow: 'Workout view', todayTitle: 'This week’s plan', weekLabel: 'Week',
+        weekOptions: ['1 — Learn', '2 — Practice', '3 — Add a set', '4 — Build control'], moves: ['Squat','Push','Row','Bridge','Plank','Pull-up prep'], quickAria: 'Jump to movement instructions', guideAria: 'Complete calisthenics guide',
+        loadingPlan: 'Loading the week plan…', loadingGuide: 'Loading the complete guide…', footer: 'General fitness guidance, not diagnosis or treatment. Stop if you feel pain or become unwell, and seek qualified advice when needed.',
+        week: 'Week', session: 'Session', resetConfirm: 'Reset all twelve session checkmarks?', safetyHeading: 'Before you begin', safety: '<strong>Safety first.</strong> This is general guidance. Stop immediately if you feel pain or become unwell, and seek appropriate medical advice for concerning symptoms.', loadError: '<strong>The guide could not load.</strong>', planError: 'Week plan unavailable.', file: 'beginner-calisthenics-guide.md'
+      }
+    };
+    let currentLocale = localStorage.getItem('calisthenics-language') === 'en' ? 'en' : 'he';
+    let tocObserver, loadGeneration = 0;
+    const slugify = value => value.normalize('NFKD').toLowerCase().replace(/[^\p{L}\p{N}]+/gu, '-').replace(/^-|-$/g, '') || 'section';
 
     function inline(text) {
       let safe = escapeHtml(text);
@@ -201,14 +228,20 @@
 
     function renderMarkdown(markdown) {
       const lines = markdown.replace(/\r/g, '').split('\n');
+      const usedIds = new Map();
       let html = '', i = 0;
       while (i < lines.length) {
         const raw = lines[i], line = raw.trim();
         if (!line) { i++; continue; }
         const heading = line.match(/^(#{1,3})\s+(.+)$/);
         if (heading) {
-          const level = heading[1].length, text = heading[2], id = slugify(text);
-          html += `<h${level} id="${id}">${inline(text)}</h${level}>`; i++; continue;
+          const level = heading[1].length, text = heading[2];
+          const movement = level === 3 && text.match(/^([1-6])\.\s/);
+          const week = level === 3 && text.match(/^(?:Week|שבוע)\s+([1-4])\b/i);
+          const base = movement ? `movement-${movement[1]}` : slugify(text);
+          const count = (usedIds.get(base) || 0) + 1; usedIds.set(base, count);
+          const id = count === 1 ? base : `${base}-${count}`;
+          html += `<h${level} id="${id}"${week ? ` data-week="${week[1]}"` : ''}>${inline(text)}</h${level}>`; i++; continue;
         }
         if (line.startsWith('|') && i + 1 < lines.length && /^\|?\s*:?-+/.test(lines[i + 1].trim())) {
           const rows = [];
@@ -240,67 +273,89 @@
       const grid = $('#sessionGrid');
       for (let week = 1; week <= 4; week++) {
         const card = document.createElement('div'); card.className = 'week-card';
-        card.innerHTML = `<strong>Week ${week}</strong><div class="checks">${[1,2,3].map(session => `<span class="check"><input type="checkbox" id="w${week}s${session}" data-session="w${week}s${session}"><label for="w${week}s${session}" title="Week ${week}, session ${session}">${session}</label></span>`).join('')}</div>`;
+        card.innerHTML = `<strong data-week-label="${week}"></strong><div class="checks">${[1,2,3].map(session => `<span class="check"><input type="checkbox" id="w${week}s${session}" data-session="w${week}s${session}" data-week="${week}" data-session-number="${session}"><label for="w${week}s${session}">${session}</label></span>`).join('')}</div>`;
         grid.append(card);
       }
-      const saved = JSON.parse(localStorage.getItem('calisthenics-progress') || '{}');
+      let saved = {}; try { saved = JSON.parse(localStorage.getItem('calisthenics-progress') || '{}'); } catch { localStorage.removeItem('calisthenics-progress'); }
       $$('[data-session]').forEach(box => { box.checked = !!saved[box.dataset.session]; box.addEventListener('change', saveProgress); });
-      updateProgress();
+      localizeProgress(); updateProgress();
     }
     function saveProgress() {
       const state = {}; $$('[data-session]').forEach(box => state[box.dataset.session] = box.checked);
       localStorage.setItem('calisthenics-progress', JSON.stringify(state)); updateProgress();
     }
-    function updateProgress() { const count = $$('[data-session]:checked').length; $('#progressNumber').textContent = `${count} / 12`; }
+    function updateProgress() { const count = $$('[data-session]:checked').length; $('#progressNumber').innerHTML = `<bdi dir="ltr">${count} / 12</bdi>`; }
+    function localizeProgress() {
+      const t = locales[currentLocale];
+      $$('[data-week-label]').forEach(el => el.textContent = `${t.week} ${el.dataset.weekLabel}`);
+      $$('[data-session]').forEach(box => { const label = `${t.week} ${box.dataset.week}, ${t.session} ${box.dataset.sessionNumber}`; box.nextElementSibling.title = label; box.setAttribute('aria-label', label); });
+    }
 
     function buildToc() {
       const headings = $$('#guide h2');
       $('#toc').innerHTML = headings.map(h => `<a href="#${h.id}">${h.textContent}</a>`).join('');
-      const observer = new IntersectionObserver(entries => entries.forEach(entry => { if (entry.isIntersecting) { $$('.toc a').forEach(a => a.classList.toggle('active', a.getAttribute('href') === `#${entry.target.id}`)); } }), { rootMargin: '-20% 0px -72% 0px' });
-      headings.forEach(h => observer.observe(h));
+      if (tocObserver) tocObserver.disconnect();
+      tocObserver = new IntersectionObserver(entries => entries.forEach(entry => { if (entry.isIntersecting) { $$('.toc a').forEach(a => a.classList.toggle('active', a.getAttribute('href') === `#${entry.target.id}`)); } }), { rootMargin: '-20% 0px -72% 0px' });
+      headings.forEach(h => tocObserver.observe(h));
       $$('.toc a').forEach(a => a.addEventListener('click', () => { $('#sideNav').classList.remove('open'); $('#menuButton').setAttribute('aria-expanded', 'false'); }));
     }
 
     function showWeek(week) {
-      const heading = $$('#guide h3').find(h => h.textContent.startsWith(`Week ${week} `));
+      const heading = $(`#guide h3[data-week="${week}"]`);
       if (!heading) return;
-      let node = heading.nextElementSibling, table = null, goal = '';
-      while (node && node.tagName !== 'H3') { if (node.querySelector?.('table')) table = node.cloneNode(true); if (node.tagName === 'P' && node.textContent.startsWith('Goal:')) goal = node.textContent; node = node.nextElementSibling; }
+      let node = heading.nextElementSibling, table = null, goal = '', tableSeen = false;
+      while (node && node.tagName !== 'H3') { if (node.querySelector?.('table')) { table = node.cloneNode(true); tableSeen = true; } else if (tableSeen && node.tagName === 'P' && !goal) goal = node.textContent; node = node.nextElementSibling; }
       const target = $('#weekPlan'); target.innerHTML = '';
       if (table) target.append(table); if (goal) { const p = document.createElement('p'); p.innerHTML = `<strong>${escapeHtml(goal)}</strong>`; target.append(p); }
       localStorage.setItem('calisthenics-week', week);
     }
 
+    function setText(id, value) { const el = $(`#${id}`); if (el) el.textContent = value; }
+    function updateThemeLabel() { const t = locales[currentLocale], dark = document.body.classList.contains('dark'); $('#themeButton').textContent = dark ? t.themeLight : t.themeDark; $('#themeButton').setAttribute('aria-label', t.themeAria); }
+    function applyLocale(locale, reload = true) {
+      currentLocale = locale; localStorage.setItem('calisthenics-language', locale);
+      const t = locales[locale]; document.documentElement.lang = locale; document.documentElement.dir = locale === 'he' ? 'rtl' : 'ltr'; document.title = t.title; $('meta[name="description"]').content = t.description;
+      [['brandText','brand'],['menuButton','menu'],['heroEyebrow','heroEyebrow'],['heroTitle','heroTitle'],['heroCopy','heroCopy'],['durationTitle','durationTitle'],['durationCopy','durationCopy'],['tocTitle','tocTitle'],['progressTitle','progressTitle'],['progressCopy','progressCopy'],['resetProgress','reset'],['workoutEyebrow','workoutEyebrow'],['todayTitle','todayTitle'],['weekLabel','weekLabel'],['footerText','footer']].forEach(([id,key]) => setText(id,t[key]));
+      $('#toc').setAttribute('aria-label', t.tocTitle); $('#weekSelect').setAttribute('aria-label', t.weekLabel); $('.quick-moves').setAttribute('aria-label', t.quickAria); $('#guide').setAttribute('aria-label', t.guideAria);
+      $$('#weekSelect option').forEach((option, i) => option.textContent = t.weekOptions[i]); $$('.quick-moves button').forEach((button, i) => button.textContent = t.moves[i]);
+      $('#languageButton').textContent = t.language; $('#languageButton').lang = t.languageLang; $('#languageButton').setAttribute('aria-label', t.languageAria); updateThemeLabel(); localizeProgress();
+      if (reload) loadGuide();
+    }
+
     async function loadGuide() {
+      const generation = ++loadGeneration, t = locales[currentLocale];
+      $('#guide').innerHTML = `<p>${t.loadingGuide}</p>`; $('#weekPlan').innerHTML = `<p>${t.loadingPlan}</p>`;
       try {
-        const response = await fetch('beginner-calisthenics-guide.md');
+        const response = await fetch(t.file);
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const markdown = await response.text();
+        if (generation !== loadGeneration) return;
         $('#guide').innerHTML = renderMarkdown(markdown.replace(/^# .+\n+[^\n]+\n+/, ''));
-        const before = $('#before-you-begin');
+        const before = $$('#guide h2').find(h => h.textContent === t.safetyHeading);
         if (before) {
-          const box = document.createElement('div'); box.className = 'safety-box'; box.innerHTML = '<strong>Safety first.</strong> This is general guidance. Stop immediately if you feel pain or become unwell, and seek appropriate medical advice for concerning symptoms.';
+          const box = document.createElement('div'); box.className = 'safety-box'; box.innerHTML = t.safety;
           before.insertAdjacentElement('afterend', box);
         }
         buildToc(); showWeek($('#weekSelect').value);
       } catch (error) {
-        $('#guide').innerHTML = `<div class="safety-box"><strong>The guide could not load.</strong><br>${escapeHtml(error.message)}</div>`;
-        $('#weekPlan').innerHTML = '<p>Week plan unavailable.</p>';
+        if (generation !== loadGeneration) return; console.error('Guide load failed:', error);
+        $('#guide').innerHTML = `<div class="safety-box">${t.loadError}</div>`;
+        $('#weekPlan').innerHTML = `<p>${t.planError}</p>`;
       }
     }
 
     const savedTheme = localStorage.getItem('calisthenics-theme');
     if (savedTheme === 'dark') document.body.classList.add('dark');
-    $('#themeButton').textContent = document.body.classList.contains('dark') ? 'Light mode' : 'Dark mode';
-    $('#themeButton').addEventListener('click', () => { document.body.classList.toggle('dark'); const dark = document.body.classList.contains('dark'); localStorage.setItem('calisthenics-theme', dark ? 'dark' : 'light'); $('#themeButton').textContent = dark ? 'Light mode' : 'Dark mode'; });
+    $('#themeButton').addEventListener('click', () => { document.body.classList.toggle('dark'); const dark = document.body.classList.contains('dark'); localStorage.setItem('calisthenics-theme', dark ? 'dark' : 'light'); updateThemeLabel(); });
+    $('#languageButton').addEventListener('click', () => applyLocale(currentLocale === 'he' ? 'en' : 'he'));
     $('#menuButton').addEventListener('click', () => { const open = $('#sideNav').classList.toggle('open'); $('#menuButton').setAttribute('aria-expanded', String(open)); });
     $('#weekSelect').value = localStorage.getItem('calisthenics-week') || '1';
     $('#weekSelect').addEventListener('change', e => showWeek(e.target.value));
-    $('#resetProgress').addEventListener('click', () => { if (confirm('Reset all twelve session checkmarks?')) { localStorage.removeItem('calisthenics-progress'); $$('[data-session]').forEach(box => box.checked = false); updateProgress(); } });
+    $('#resetProgress').addEventListener('click', () => { if (confirm(locales[currentLocale].resetConfirm)) { localStorage.removeItem('calisthenics-progress'); $$('[data-session]').forEach(box => box.checked = false); updateProgress(); } });
     $$('.quick-moves button').forEach(button => button.addEventListener('click', () => document.getElementById(button.dataset.move)?.scrollIntoView()));
     addEventListener('scroll', () => { const max = document.documentElement.scrollHeight - innerHeight; $('#readingBar').style.width = `${max > 0 ? scrollY / max * 100 : 0}%`; }, { passive: true });
 
-    buildProgress(); loadGuide();
+    buildProgress(); applyLocale(currentLocale, false); loadGuide();
   </script>
 </body>
 </html>
